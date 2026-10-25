@@ -13,16 +13,24 @@ const Cart = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.products.map((product) => (
+          {props.products
+          .filter((product) => props.inCartProducts[product.id] >0)
+          .map((product) => (
             <tr key={product.id}>
               <td>{product.name}</td>
               <td>{props.inCartProducts[product.id]}</td>
               <td>{product.price}$</td>
+              <button
+                onClick={() => props.onDeleteFromCart(product.id)}
+                className="btn btn-danger btn-sm"
+              >Remove</button>
             </tr>
           ))}
         </tbody>
       </table>
-      <span className="mx-auto">Total: {}$</span>
+      <span className="mx-auto">Total: {props.products.reduce(
+        (sum, product) => sum + product.price * (props.inCartProducts[product.id]), 0
+      )}$</span>
     </div>
   );
 };

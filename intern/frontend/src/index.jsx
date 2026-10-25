@@ -50,15 +50,32 @@ const App = () => {
   // Updating corresponding quantities in availableProducts and inCartProducts
   const onAddToCart = (productId) => {
     const availableBeforeAdd = availableProducts[productId];
-    setAvailableProducts({
-      ...availableProducts,
-      [productId]: availableBeforeAdd - 1,
-    });
-    const inCartBeforeAdd = inCartProducts[productId];
-    setInCartProducts({
-      ...inCartProducts,
-      [productId]: inCartBeforeAdd + 1,
-    });
+    if (availableBeforeAdd > 0) {
+      setAvailableProducts({
+        ...availableProducts,
+        [productId]: availableBeforeAdd - 1,
+      });
+      const inCartBeforeAdd = inCartProducts[productId];
+      setInCartProducts({
+        ...inCartProducts,
+        [productId]: inCartBeforeAdd + 1,
+      });
+    }
+  };
+
+  const onDeleteFromCart = (productId) => {
+    const inCartBeforeDelete = inCartProducts[productId];
+    if (inCartBeforeDelete > 0) {
+      setInCartProducts({
+        ...inCartProducts,
+        [productId]: inCartBeforeDelete - 1,
+      });
+      const availableBeforeDelete = availableProducts[productId];
+      setAvailableProducts({
+        ...availableProducts,
+        [productId]: availableBeforeDelete + 1,
+      });
+    }
   };
 
   // What is displayed.
@@ -70,7 +87,11 @@ const App = () => {
         availableProducts={availableProducts}
         onAddToCart={onAddToCart}
       />
-      <Cart products={products} inCartProducts={inCartProducts} />
+      <Cart 
+        products={products}
+        inCartProducts={inCartProducts}
+        onDeleteFromCart={onDeleteFromCart}
+      />
     </div>
   );
 };

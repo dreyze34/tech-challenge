@@ -23,6 +23,10 @@ const Shop = (props) => {
                     <span>{product.price}$</span>
                   </div>
                 </span>
+                <div className="d-flex justify-content-between">
+                  <span>Stock:</span>
+                  <span>{props.availableProducts[product.id]}</span>
+                </div>
                 <div className="d-flex flex-column align-items-end mt-2">
                   <button
                     onClick={() => props.onAddToCart(product.id)}
